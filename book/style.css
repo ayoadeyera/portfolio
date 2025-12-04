@@ -1,0 +1,119 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.author {
+    font-style: italic;
+    font-size: 1.1em;
+    margin-top: 0;
+}
+
+/* Header Styling */
+header {
+    background-color: #4a69bd;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 5px solid #2e4a86;
+}
+
+header h1 {
+    margin-bottom: 5px;
+}
+
+header h2 {
+    font-weight: 300;
+    margin-top: 5px;
+}
+
+/* Main Content Area */
+main {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 20px;
+    margin-bottom: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+section h3 {
+    color: #4a69bd;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+/* Table of Contents Styling */
+#table-of-contents ul {
+    list-style: none;
+    padding: 0;
+}
+
+#table-of-contents li {
+    padding: 5px 0;
+    border-bottom: 1px dotted #eee;
+}
+
+#table-of-contents a {
+    text-decoration: none;
+    color: #2e4a86;
+    font-weight: bold;
+}
+
+/* Button Styling (for JavaScript interactivity) */
+#theme-toggle {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #777;
+    font-size: 0.9em;
+    border-top: 1px solid #ddd;
+}
+
+/* Dark Mode Classes (Toggled by JavaScript) */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode header {
+    background-color: #0d47a1;
+    border-bottom-color: #1976d2;
+}
+
+body.dark-mode section {
+    background: #1e1e1e;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode section h3 {
+    color: #90caf9;
+    border-bottom-color: #333;
+}
+
+body.dark-mode #table-of-contents a {
+    color: #bbdefb;
+}
