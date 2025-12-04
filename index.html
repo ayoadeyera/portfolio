@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solomon Adeyera Portfolio | Developer & Creative</title>
+    
+    <!-- --- FONTS & ICONS (Keep in HTML head) --- -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- --- TAILWIND SETUP (Keep in HTML head for this version) --- -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        midnight: '#030712', 
+                        surface: '#111827',
+                        primary: '#6366f1', 
+                        accent: '#a855f7',
+                        cyan: '#06b6d4',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- ================================================================== -->
+    <!--  START OF CSS FILE (Copy content below to styles.css)              -->
+    <!-- ================================================================== -->
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(168, 85, 247, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #22d3ee, #a855f7, #f472b6);
+        }
+    </style>
+    <!-- ================================================================== -->
+    <!--  END OF CSS FILE                                                   -->
+    <!-- ================================================================== -->
+</head>
+<body class="bg-midnight text-gray-300 antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 font-bold text-2xl tracking-tighter text-white">
+                    SOLOMON<span class="text-cyan">ADEYERA</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="hover:text-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#development" class="hover:text-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">Dev</a>
+                        <a href="#creative" class="hover:text-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">Creative</a>
+                        <a href="#marketing" class="hover:text-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">Marketing</a>
+                        <a href="#achievements" class="hover:text-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">Awards</a>
+                        <a href="#contact" class="px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium hover:opacity-90 transition-opacity">Hire Me</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMenu()" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div class="md:hidden hidden bg-surface border-t border-gray-800 absolute w-full" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" onclick="toggleMenu()" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#development" onclick="toggleMenu()" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Development</a>
+                <a href="#creative" onclick="toggleMenu()" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Creative</a>
+                <a href="#marketing" onclick="toggleMenu()" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Marketing</a>
+                <a href="#achievements" onclick="toggleMenu()" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Awards</a>
+                <a href="#contact" onclick="toggleMenu()" class="text-cyan block px-3 py-2 rounded-md text-base font-medium font-bold">Hire Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+        <!-- Background Blobs -->
+        <div class="absolute top-0 left-0 -ml-20 -mt-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-20 animate-blob animation-delay-4000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center gap-12">
+            <!-- Text Content -->
+            <div class="md:w-1/2 text-center md:text-left">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-semibold mb-6">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+                    Student @ BYU-Idaho
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight mb-6">
+                    I Build <span class="text-gradient">Systems</span><br>
+                    & Tell <span class="text-gradient">Stories</span>.
+                </h1>
+                <p class="text-lg text-gray-400 mb-8 max-w-lg mx-auto md:mx-0">
+                    A hybrid professional combining <strong>Software Engineering</strong> logic with <strong>Creative Marketing</strong> vision.
+                    Full-stack developer, copywriter, and designer.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#development" class="px-8 py-3.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-1">
+                        View Projects
+                    </a>
+                    <a href="#contact" class="px-8 py-3.5 rounded-lg glass text-white font-semibold hover:bg-white/10 transition-all">
+                        Contact Me
+                    </a>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="mt-10 flex items-center justify-center md:justify-start space-x-6 text-2xl text-gray-500">
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="#" class="hover:text-blue-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-red-400 transition-colors"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="md:w-1/2 flex justify-center relative animate-float">
+                <!-- 
+                   TIP: To add your own photo here:
+                   1. Create an 'images' folder.
+                   2. Put your photo in it (e.g. 'me.jpg').
+                   3. Replace the src below with 'images/me.jpg'.
+                   For now, using a placeholder.
+                -->
+                <div class="relative w-72 h-72 md:w-96 md:h-96">
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full blur-2xl opacity-30"></div>
+                    <img src="https://placehold.co/600x600/1e293b/FFF?text=My+Profile+Image" 
+                         alt="Profile" 
+                         class="relative w-full h-full object-cover rounded-3xl border-2 border-white/10 shadow-2xl z-10 transform rotate-3 hover:rotate-0 transition-all duration-500">
+                    
+                    <!-- Floating Badge 1 -->
+                    <div class="absolute -top-4 -right-4 glass px-4 py-2 rounded-xl flex items-center gap-2 z-20 animate-bounce">
+                        <i class="fas fa-code text-cyan-400"></i>
+                        <span class="text-sm font-bold text-white">Developer</span>
+                    </div>
+                    <!-- Floating Badge 2 -->
+                    <div class="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-xl flex items-center gap-2 z-20 animate-bounce" style="animation-delay: 1s;">
+                        <i class="fas fa-pen-nib text-purple-400"></i>
+                        <span class="text-sm font-bold text-white">Writer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Section -->
+    <section id="development" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400">
+                    <i class="fas fa-laptop-code text-2xl"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Engineering & Code</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <article class="glass-card rounded-2xl overflow-hidden group">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <!-- REPLACE SRC with: 'images/project1.jpg' -->
+                        <img src="images/software-developer.jpg" alt="Project 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Assignment Tracker</h3>
+                        <p class="text-gray-400 text-sm mb-4">A full-stack application built at BYU-Idaho using React and Node.js to help students manage academic deadlines efficiently.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-gray-700 text-cyan-400">React</span>
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-gray-700 text-cyan-400">MongoDB</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-sm text-white hover:text-cyan-400 flex items-center gap-2"><i class="fab fa-github"></i> Source</a>
+                            <a href="#" class="text-sm text-white hover:text-cyan-400 flex items-center gap-2"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="glass-card rounded-2xl overflow-hidden group">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <!-- REPLACE SRC with: 'images/project2.jpg' -->
+                        <img src="images/ecom-work.png" alt="Project 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">E-Commerce Admin</h3>
+                        <p class="text-gray-400 text-sm mb-4">Responsive dashboard for inventory management featuring real-time data visualization and order tracking.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-gray-700 text-purple-400">Vue.js</span>
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-gray-700 text-purple-400">Firebase</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-sm text-white hover:text-cyan-400 flex items-center gap-2"><i class="fab fa-github"></i> Source</a>
+                            <a href="#" class="text-sm text-white hover:text-cyan-400 flex items-center gap-2"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="glass-card rounded-2xl overflow-hidden group">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden">
+                        <!-- REPLACE SRC with: 'images/project3.jpg' -->
+                        <img src="images/python_api.webp" alt="Project 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Blog Content API</h3>
+                        <p class="text-gray-400 text-sm mb-4">Custom RESTful API architecture designed to serve dynamic content to my personal writing platform securely.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-gray-700 text-green-400">Python</span>
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-gray-700 text-green-400">Flask</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-sm text-white hover:text-cyan-400 flex items-center gap-2"><i class="fab fa-github"></i> Source</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creative Works Section -->
+    <section id="creative" class="py-24 relative bg-surface/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400">
+                    <i class="fas fa-palette text-2xl"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Creative & Design</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Creative Item 1 -->
+                <div class="group relative rounded-2xl overflow-hidden h-64 border border-white/5 cursor-pointer">
+                    <!-- REPLACE SRC with: 'images/design1.jpg' -->
+                    <img src="images/startup_branding.jpg" alt="Design 1" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">Graphic Design</span>
+                        <h3 class="text-2xl font-bold text-white">Startup Branding</h3>
+                    </div>
+                </div>
+
+                <!-- Creative Item 2 -->
+                <div class="group relative rounded-2xl overflow-hidden h-64 border border-white/5 cursor-pointer">
+                     <!-- REPLACE SRC with: 'images/design2.jpg' -->
+                    <img src="images/motion_graphics.jpg" alt="Design 2" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">Animation</span>
+                        <h3 class="text-2xl font-bold text-white">SaaS Explainer Video</h3>
+                    </div>
+                </div>
+
+                <!-- Creative Item 3 -->
+                <div class="group relative rounded-2xl overflow-hidden h-64 border border-white/5 cursor-pointer">
+                     <!-- REPLACE SRC with: 'images/design3.jpg' -->
+                    <img src="images/digital_marketing.jpg" alt="Design 3" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">Marketing Design</span>
+                        <h3 class="text-2xl font-bold text-white">Ad Campaign Pack</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketing Section -->
+    <section id="marketing" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="p-3 rounded-lg bg-pink-500/10 text-pink-400">
+                    <i class="fas fa-bullhorn text-2xl"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Marketing & Copywriting</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Book Card -->
+                <div class="glass-card rounded-2xl p-8 flex flex-col md:flex-row gap-6 items-center md:items-start text-center md:text-left">
+                    <div class="w-16 h-16 rounded-full bg-pink-500/20 flex items-center justify-center flex-shrink-0 text-pink-400">
+                        <i class="fas fa-book-open text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Magnetic Writing</h3>
+                        <p class="text-gray-400 mb-4">My authored book on the psychology of persuasive copywriting. Learn how to write to influence human actions; with words that sell, convert, and engage audiences effectively.</p>
+                        <a href="excerpt.html" class="inline-flex items-center text-pink-400 hover:text-pink-300 font-semibold transition-colors">
+                            Read Excerpt <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Course Card -->
+                <div class="glass-card rounded-2xl p-8 flex flex-col md:flex-row gap-6 items-center md:items-start text-center md:text-left">
+                    <div class="w-16 h-16 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 text-orange-400">
+                        <i class="fas fa-video text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-2">The Biggest Winner</h3>
+                        <p class="text-gray-400 mb-4">Comprehensive advertising course on YouTube teaching foundational marketing principles and modern ad strategies.</p>
+                        <a href="https://youtube.com/playlist?list=PLX-844fHYhWhw2xyBX2mBtXXXJbPS7_hT&si=vRXrhvJOScRkYhBH" class="inline-flex items-center text-orange-400 hover:text-orange-300 font-semibold transition-colors">
+                            Watch Course <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="py-24 relative bg-surface/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-16">Recognition & Stats</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Award Card -->
+                <div class="glass-card rounded-2xl p-8 border-l-4 border-yellow-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-yellow-500">
+                        <i class="fas fa-trophy text-9xl transform rotate-12"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="text-yellow-400 font-bold tracking-widest text-sm uppercase mb-2">Springboard Indexing Excellence</div>
+                        <h3 class="text-3xl font-bold text-white mb-4">Top 10 Indexer 2024</h3>
+                        <p class="text-gray-400">Selected among hundreds for exceptional accuracy, speed, and consistency in complex data indexing tasks.</p>
+                    </div>
+                </div>
+
+                <!-- Stats / Typing Card -->
+                <div class="glass-card rounded-2xl p-8 border-l-4 border-green-500">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-white"><i class="fas fa-keyboard mr-2 text-gray-500"></i> Typing Speed</h3>
+                        <span class="text-4xl font-bold text-green-400">60+ <span class="text-lg text-gray-500">WPM</span></span>
+                    </div>
+                    
+                    <!-- Typing Screenshot Area -->
+                    <div class="rounded-lg overflow-hidden border border-gray-700 bg-black/50 relative group">
+                         <!-- 
+                            IMPORTANT: REPLACE THIS SRC WITH YOUR TYPING SCREENSHOT 
+                            Example: src="images/typing-test.png"
+                         -->
+                        <img src="images/typing_speed.png" 
+                             alt="Typing Stats" 
+                             class="w-full h-auto opacity-80 group-hover:opacity-100 transition-opacity">
+                        
+                        <div class="absolute bottom-2 right-2 bg-black/80 text-xs text-gray-400 px-2 py-1 rounded">
+                            Verified by MonkeyType
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-white mb-6">Let's Build Something Great</h2>
+            <p class="text-xl text-gray-400 mb-10">
+                Whether you need a web app, a brand overhaul, or persuasive copy, I'm ready to help.
+            </p>
+            <a href="mailto:your.email@example.com" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-midnight bg-cyan-400 rounded-lg hover:bg-cyan-300 transition-all hover:scale-105 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                <i class="fas fa-envelope mr-3"></i> Get in Touch
+            </a>
+
+            <footer class="mt-20 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2024 Your Name. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-cyan transition-colors">GitHub</a>
+                    <a href="#" class="hover:text-cyan transition-colors">LinkedIn</a>
+                    <a href="#" class="hover:text-cyan transition-colors">Instagram</a>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!--  START OF JAVASCRIPT FILE (Copy content below to script.js)        -->
+    <!-- ================================================================== -->
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Add blur effect to navbar on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(17, 24, 39, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(17, 24, 39, 0.7)';
+            }
+        });
+    </script>
+    <!-- ================================================================== -->
+    <!--  END OF JAVASCRIPT FILE                                            -->
+    <!-- ================================================================== -->
+
+</body>
+</html>

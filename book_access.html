@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnetic Writing: Exclusive Content Access</title>
+    
+    <!-- --- STYLING & ICONS --- -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: { midnight: '#030712', surface: '#111827', pink: '#f472b6', cyan: '#06b6d4', },
+                }
+            }
+        }
+    </script>
+
+    <!-- --- FIREBASE LOGIC --- -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Set Firebase Log Level (Optional: for debugging)
+        // setLogLevel('Debug');
+
+        const BOOK_TITLE_SLUG = 'MagneticWriting';
+        
+        // Global variables MUST be used as provided by the Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        // FIX: Corrected typo from __initialAuthToken to __initial_auth_token
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null; 
+
+        let app, db, auth, userId;
+        let isAuthReady = false;
+
+        // UI elements
+        const statusDiv = document.getElementById('access-status');
+        const contentDiv = document.getElementById('book-content');
+        const accessForm = document.getElementById('access-form');
+
+        // Function to update the UI message
+        const updateStatus = (html, color = 'cyan') => {
+            statusDiv.innerHTML = `<div class="text-${color}-400 flex items-center justify-center">${html}</div>`;
+        };
+
+        // Core Function: Check if the user has accessed the content before
+        const checkAccessStatus = async (currentUserId) => {
+            const accessPath = `/artifacts/${appId}/users/${currentUserId}/bookAccess/${BOOK_TITLE_SLUG}`;
+            const accessDocRef = doc(db, accessPath);
+            
+            try {
+                const docSnap = await getDoc(accessDocRef);
+
+                if (docSnap.exists() && docSnap.data().hasAccessed) {
+                    // 1. ACCESS DENIED (Already accessed)
+                    console.log("Access already used.");
+                    updateStatus(`
+                        <div class="p-8 bg-red-900/50 rounded-xl text-center shadow-lg border border-red-700">
+                            <i class="fas fa-times-circle text-6xl text-red-500 mb-4"></i>
+                            <h2 class="text-3xl font-bold text-white mb-2">Access Expired.</h2>
+                            <p class="text-lg text-red-300">
+                                You have already viewed the exclusive content. Access is limited to a single view per account.
+                            </p>
+                            <p class="text-sm text-red-400 mt-4">
+                                Your User ID: <span class="font-mono text-red-200">${currentUserId}</span>
+                            </p>
+                        </div>
+                    `, 'red');
+                    accessForm.classList.add('hidden');
+                    contentDiv.classList.add('hidden');
+
+                } else {
+                    // 2. ACCESS PENDING (Show Form)
+                    console.log("First time visit. Showing form.");
+                    updateStatus(`
+                        <p class="text-lg text-gray-400 mb-6">
+                            Fill out the form below to grant your single-use access to the exclusive book excerpt.
+                        </p>
+                    `, 'gray');
+                    accessForm.classList.remove('hidden');
+                    contentDiv.classList.add('hidden');
+                }
+            } catch (e) {
+                console.error("Firestore access check failed:", e);
+                updateStatus(`<p>A database error occurred: ${e.message}</p>`, 'red');
+            }
+        };
+
+        // Function: Handle form submission and grant access
+        const grantAccess = async (name, email) => {
+            if (!userId) {
+                console.error("User ID not available.");
+                updateStatus('<p>Authentication not ready. Please try refreshing.</p>', 'red');
+                return;
+            }
+
+            const accessPath = `/artifacts/${appId}/users/${userId}/bookAccess/${BOOK_TITLE_SLUG}`;
+            const accessDocRef = doc(db, accessPath);
+            
+            try {
+                // 1. Immediately flag access as used in Firestore, storing user details
+                await setDoc(accessDocRef, { 
+                    hasAccessed: true, 
+                    accessTime: new Date().toISOString(),
+                    name: name,
+                    email: email,
+                });
+                
+                // 2. Hide form, clear status, and show content
+                updateStatus('', 'cyan');
+                accessForm.classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+
+                console.log("Access granted and flagged as used.");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (e) {
+                console.error("Firestore access grant failed:", e);
+                updateStatus(`<p>Failed to grant access. A database error occurred: ${e.message}</p>`, 'red');
+            }
+        };
+
+
+        // Setup event listener for the form
+        if (accessForm) {
+            accessForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('user-name').value;
+                const email = document.getElementById('user-email').value;
+                
+                if (name && email) {
+                    grantAccess(name, email);
+                } else {
+                    // NOTE: Custom modal UI should be used here instead of alert in a production app.
+                    alert('Please provide your name and email address.');
+                }
+            });
+        }
+
+
+        // Authentication setup
+        const handleSignIn = async () => {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth); 
+                }
+            } catch (error) {
+                console.error("Authentication Error:", error);
+                updateStatus(`<p>Authentication Error. Please try again.</p>`, 'red');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!firebaseConfig || !firebaseConfig.apiKey) {
+                updateStatus('<p>Error: Firebase configuration is missing or invalid. Cannot run application logic.</p>', 'red');
+                return;
+            }
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            // Wait for auth state to resolve before running logic
+            onAuthStateChanged(auth, async (user) => {
+                isAuthReady = true;
+                if (user) {
+                    userId = user.uid;
+                    updateStatus('<i class="fas fa-search mr-3 fa-spin"></i> Checking access status...', 'cyan');
+                    await checkAccessStatus(userId);
+                } else {
+                    await handleSignIn();
+                }
+            });
+
+            // If the listener hasn't fired yet, try to sign in
+            if (!auth.currentUser) {
+                 handleSignIn();
+            }
+        });
+    </script>
+
+</head>
+<body class="bg-midnight text-gray-300 antialiased min-h-screen flex flex-col justify-center items-center py-12">
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-extrabold text-white mb-2">
+                <span class="text-pink-400">MAGNETIC WRITING</span>
+            </h1>
+            <p class="text-xl text-gray-400">Exclusive Content Access</p>
+        </header>
+
+        <!-- Dynamic Status/Denied Message Area -->
+        <div id="access-status" class="text-center mb-8">
+             <div class="text-cyan-400 flex items-center justify-center"><i class="fas fa-spinner fa-spin mr-3"></i> Loading authentication...</div>
+        </div>
+
+        <!-- Access Form (Shown only if access is pending) -->
+        <form id="access-form" class="hidden max-w-lg mx-auto p-8 bg-surface rounded-xl shadow-2xl border border-gray-800 space-y-6">
+            <h2 class="text-2xl font-bold text-white mb-4 text-center">Get Your Single-Use Pass</h2>
+
+            <div>
+                <label for="user-name" class="block text-sm font-medium text-gray-300 mb-1">Your Full Name</label>
+                <input type="text" id="user-name" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500 text-white placeholder-gray-400">
+            </div>
+
+            <div>
+                <label for="user-email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                <input type="email" id="user-email" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500 text-white placeholder-gray-400">
+            </div>
+
+            <button type="submit" class="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-midnight bg-pink-400 hover:bg-pink-300 shadow-lg shadow-pink-500/30 transition-all">
+                Grant Single-Use Access <i class="fas fa-unlock ml-2"></i>
+            </button>
+            <p class="text-xs text-center text-gray-500 mt-4">
+                We respect your privacy. Your details are used solely for access control and follow-up.
+            </p>
+        </form>
+
+        <!-- Book Content Area (Hidden until access is granted) -->
+        <section id="book-content" class="hidden mt-10">
+            <div class="p-8 md:p-10 bg-surface rounded-xl shadow-2xl border border-pink-700/50">
+                <h2 class="text-3xl font-extrabold text-pink-400 mb-6">
+                    The 12 Pillars of Influence (Exclusive Excerpt)
+                </h2>
+                <p class="text-gray-400 mb-8 italic">
+                    <i class="fas fa-exclamation-triangle mr-2 text-yellow-500"></i> This is your one-time opportunity to view the core principles. Reloading or revisiting this page will revoke access.
+                </p>
+
+                <div class="space-y-8 text-lg text-gray-300">
+                    <p>
+                        Welcome to the foundational blueprint of **Magnetic Writing**. The concepts below are the 12 non-negotiable pillars that transform ordinary text into an Engine of Human Motivation, ensuring your words reliably convert readers into loyal clients and customers. Master these, and you master influence.
+                    </p>
+
+                    <h3 class="text-2xl font-bold text-white pt-4">1. The Anatomy of Good Writing</h3>
+                    <p>This section deconstructs the essential mechanical structure and logical flow required for truly influential copy. You will learn the foundational, yet often forgotten, rules of composition that ensure every sentence serves a persuasive purpose, leading to writing that is not just readable, but reliably profitable and action-oriented. This structural discipline is the bedrock of all successful conversion text.</p>
+
+                    <h3 class="text-2xl font-bold text-white pt-4">2. The Influence Imperative</h3>
+                    <p>The core of magnetic writing is recognizing that people do not buy products; they buy *a better version of themselves*. This pillar shows you how to strategically connect your product or service directly to the reader's desired future transformation, using psychological triggers to motivate immediate, decisive action and high-value conversions. This is about selling the aspirational outcome, not the feature set.</p>
+
+                    <h3 class="text-2xl font-bold text-white pt-4">3. Stimulating Human Potential</h3>
+                    <p>Learn the advanced techniques for tapping into the reader's deepest, most ambitious dormant desires and motivations. Magnetic writing acts as a powerful catalyst, moving readers past procrastination and fear, and inspiring them toward life-changing decisions that align with your offer. This is the art of selling aspiration and moving the reader from passive contemplation to active pursuit of a better life.</p>
+
+                    <h3 class="text-2xl font-bold text-white pt-4">4. Defying Talent: The Rear Method</h3>
+                    <p>Solomon Adeyera's revolutionary system proves that innate talent is vastly overrated in the world of conversion copy. This pillar introduces the specific, repeatable "Rear Method"—a foolproof blueprint that guarantees high-quality, magnetic copy for *anyone*, regardless of their perceived starting "writing gift" or experience level. It's a system you can execute, not a talent you must be born with.</p>
+                </div>
+                
+                <div class="mt-12 pt-6 border-t border-gray-700 text-center">
+                    <a href="excerpt.html" class="inline-flex items-center text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i> Return to Landing Page
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

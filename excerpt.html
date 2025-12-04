@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnetic Writing: The Master Blueprint</title>
+    
+    <!-- --- FONTS & ICONS --- -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- --- TAILWIND SETUP --- -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        midnight: '#030712', 
+                        surface: '#111827',
+                        primary: '#6366f1', 
+                        accent: '#a855f7',
+                        cyan: '#06b6d4',
+                        pink: '#f472b6',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles (for glass effect and gradient) -->
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .text-gradient-pink {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #f472b6, #e879f9, #a855f7);
+        }
+        .pillar-card {
+            background-color: #0c121e; /* Darker than surface for contrast */
+            border: 1px solid #1f2937;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(168, 85, 247, 0.1);
+            border-color: #a855f7;
+        }
+    </style>
+</head>
+
+<body class="bg-midnight text-gray-300 antialiased min-h-screen flex flex-col pt-16">
+
+    <!-- Header / Back Button -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-midnight/90 backdrop-blur-sm shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html#marketing" class="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center font-medium">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Portfolio
+            </a>
+            <div class="font-bold text-xl tracking-tighter text-white">
+                MAGNETIC <span class="text-pink-400">WRITING</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-8 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-6 md:p-12 mt-12">
+                
+                <!-- Book Header and Visual -->
+                <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start pb-10 border-b border-gray-800 mb-10">
+                    
+                    <!-- Cover Image Placeholder -->
+                    <div class="w-full lg:w-96 flex-shrink-0 mx-auto lg:mx-0">
+                        <img 
+                            src="https://placehold.co/400x600/111827/f472b6?text=Magnetic%20Writing%20Cover" 
+                            alt="Magnetic Writing Book Cover" 
+                            class="w-full h-auto object-cover rounded-xl shadow-2xl shadow-pink-900/50 border-2 border-pink-400/30 transition-transform hover:scale-[1.02]">
+                    </div>
+
+                    <!-- Book Information -->
+                    <div class="lg:pt-8 text-center lg:text-left">
+                        <h1 class="text-5xl md:text-6xl font-extrabold text-gradient-pink leading-tight mb-4">
+                            Magnetic Writing
+                        </h1>
+                        <h2 class="text-2xl text-gray-400 font-light mb-6">
+                            The Definitive Guide to Influence Human Actions
+                        </h2>
+                        <p class="text-lg text-gray-500 font-semibold mb-8">
+                            By Solomon Adeyera
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto lg:mx-0">
+                            <div class="bg-surface/70 p-4 rounded-lg text-center">
+                                <span class="block text-2xl font-bold text-white">2017</span>
+                                <span class="text-sm text-pink-400">Published</span>
+                            </div>
+                            <div class="bg-surface/70 p-4 rounded-lg text-center">
+                                <span class="block text-2xl font-bold text-white">Blueprint</span>
+                                <span class="text-sm text-pink-400">Categorized</span>
+                            </div>
+                        </div>
+
+                        <a href="book_access.html" class="mt-8 inline-flex items-center justify-center px-8 py-3.5 text-lg font-bold text-midnight bg-pink-400 rounded-lg hover:bg-pink-300 transition-all hover:scale-[1.02] shadow-[0_0_20px_rgba(244,114,182,0.5)]">
+                            <i class="fas fa-shopping-cart mr-3"></i> Get the Full Blueprint
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 12 Pillars of Magnetic Writing -->
+                <section class="mt-12" id="pillars">
+                    <h3 class="text-4xl font-extrabold text-white mb-12 text-center">
+                        <span class="text-pink-400">//</span> The 12 Pillars of Influence <span class="text-pink-400">//</span>
+                    </h3>
+                    
+                    <p class="text-xl text-gray-400 leading-relaxed mb-12 text-center max-w-4xl mx-auto">
+                        This book is built on 12 distinct, actionable frameworks that transform your writing from passive description into an **Engine of Human Motivation**. Mastering these pillars is the key to creating content that reliably converts readers into clients.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        <!-- Pillar 1: The Anatomy of Good Writing -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-cogs"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">1. The Anatomy of Good Writing</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                This section deconstructs the essential mechanical structure and logical flow required for truly influential copy. You will learn the foundational, yet often forgotten, rules of composition that ensure every sentence serves a persuasive purpose, leading to writing that is not just readable, but reliably profitable and action-oriented.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Master the Mechanics <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 2: Write to Influence Human Actions -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-user-check"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">2. The Influence Imperative</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                The core of magnetic writing is recognizing that people do not buy products; they buy *a better version of themselves*. This pillar shows you how to strategically connect your product or service directly to the reader's desired future transformation, using psychological triggers to motivate immediate, decisive action and high-value conversions.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Trigger Psychological Action <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 3: Stimulating Human Potential -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-rocket"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">3. Stimulating Human Potential</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Learn the advanced techniques for tapping into the reader's deepest, most ambitious dormant desires and motivations. Magnetic writing acts as a powerful catalyst, moving readers past procrastination and fear, and inspiring them toward life-changing decisions that align with your offer. This is the art of selling aspiration.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Unlock Hidden Motivations <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 4: Defying Talent: The Non-Gifted Writer's Path -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-hands-clapping"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">4. Defying Talent: The Rear Method</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Solomon Adeyera's revolutionary system proves that innate talent is vastly overrated in the world of conversion copy. This pillar introduces the specific, repeatable "Rear Method"—a foolproof blueprint that guarantees high-quality, magnetic copy for *anyone*, regardless of their perceived starting "writing gift" or experience level.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Get the Guaranteed System <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 5: The Super Writer's Glue -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-link"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">5. The Super Writer's Glue</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Discover the secret elements and structural techniques that bind your copy together, creating an inescapable narrative flow. This "Super Glue" eliminates reader drop-off and fatigue, ensuring your audience consumes your entire message—from the headline to the final Call-to-Action—with irresistible attention, maximizing your completion rates.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Perfect Reader Retention <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 6: Leave a Trail Behind! -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-shoe-prints"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">6. Leave a Trail Behind!</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                This is the blueprint for crafting a meaningful, enduring legacy message. Learn to create timeless, profound content that resonates deeply and establishes you or your brand as the definitive authority in your niche for years to come. Your words become your lasting footprint on the industry.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Build Your Content Legacy <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 7: Overcoming the Writing Fear (Step into Your Fear) -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-mask"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">7. Step into Your Fear (Block Buster)</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Writer's block is a myth rooted in fear and poor process. This pillar provides a clinical, step-by-step approach to eliminating creative resistance permanently. You will learn how to "Step into Your Fear" and write with fearless, unyielding productivity, ensuring you meet every deadline with high-quality, compelling content.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Destroy Writer's Block <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 8: The 90-Minute Man -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-hourglass-half"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">8. The 90-Minute Focus Hack</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Implement the high-intensity writing techniques of the world's most productive copywriters. This method teaches you to produce peak, high-quality output in focused, time-bound sprints, eliminating distractions and drastically increasing your Return on Investment (ROI) per hour spent writing. Work smarter, not just harder.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Maximize Productivity <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 9: Crafting Irresistible Headlines -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-heading"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">9. Crafting Irresistible Headlines</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Headlines are the 80% of your copy's success. This pillar is dedicated to mastering the three essential components of a magnetic headline that forces readership. Learn to write titles so compelling they are guaranteed to capture attention and make the reader eager to consume the rest of your meticulously crafted content.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Perfect Your Titles <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Pillar 10: Emotional Triggers in Copy -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-heart"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">10. Emotional Triggers in Copy</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                Dive deep into the specific core emotions that universally dictate purchase decisions. You will learn to write copy that doesn't just inform, but resonates and converts on a visceral level, leveraging feelings like fear, desire, and aspiration to forge an unbreakable connection between your product and the reader.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Harness Emotional Power <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Pillar 11: The Copywriters’ Empire Blueprint -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-crown"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">11. The Copywriters’ Empire Blueprint</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                This is the full strategic plan for turning your magnetic writing skills into a scalable, high-profit business. It provides the foundation for the Copywriters' Empire Academy, detailing how to structure your services, price your work, and attract top-tier clients who understand and value the immense power of persuasive copy.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Build Your Writing Business <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Pillar 12: Bonus: Effortlessly Make More Money -->
+                        <div class="pillar-card p-6 rounded-xl">
+                            <div class="text-cyan-400 text-3xl mb-3"><i class="fas fa-money-bill-wave"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2">12. BONUS: Effortless Monetization</h4>
+                            <p class="text-gray-400 text-sm mb-4">
+                                The special bonus module that goes beyond theory to provide actionable financial strategies. It reveals exactly how to transition your influential writing into continuous, high-margin revenue streams, offering techniques for passive income, high-ticket services, and premium content delivery.
+                            </p>
+                            <a href="book_access.html" class="text-pink-400 font-semibold text-sm hover:text-pink-300 transition-colors flex items-center">
+                                Unlock Income Strategies <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </section>
+                
+                <!-- CTA after Pillars -->
+                <div class="mt-16 text-center">
+                    <h4 class="text-3xl font-extrabold text-white mb-4">
+                        Stop Writing Passively. Start <span class="text-pink-400">Influencing</span>.
+                    </h4>
+                    <p class="text-lg text-gray-400 mb-8">
+                        The secret is not talent, but system. Get the system today and unlock the blueprint used by the Copywriters' Empire Academy.
+                    </p>
+                    <a id="buy" href="book_access.html" class="inline-flex items-center justify-center px-10 py-4 text-xl font-bold text-midnight bg-pink-400 rounded-lg hover:bg-pink-300 transition-all hover:scale-[1.03] shadow-[0_0_25px_rgba(244,114,182,0.7)]">
+                        <i class="fas fa-book-open mr-3"></i> Download Magnetic Writing
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Same as Portfolio Footer) -->
+    <footer class="mt-auto py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+            <p>&copy; 2024 Your Name. All rights reserved. | Based on the work of Solomon Adeyera.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-cyan transition-colors">GitHub</a>
+                <a href="#" class="hover:text-cyan transition-colors">LinkedIn</a>
+                <a href="#" class="hover:text-cyan transition-colors">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
