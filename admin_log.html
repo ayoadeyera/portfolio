@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Access Log Viewer</title>
+    
+    <!-- --- STYLING & ICONS --- -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: { midnight: '#030712', surface: '#111827', pink: '#f472b6', cyan: '#06b6d4', },
+                }
+            }
+        }
+    </script>
+
+    <!-- --- FIREBASE LOGIC --- -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const BOOK_TITLE_SLUG = 'MagneticWriting';
+        
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+             apiKey: "AIzaSyBcSfjJDN_8RexWeaTvEh_QZ0UAzRsh3V0", 
+             authDomain: "portfolio-a00c5.firebaseapp.com",
+             projectId: "portfolio-a00c5",
+             storageBucket: "portfolio-a00c5.firebasestorage.app",
+             messagingSenderId: "799536032064",
+             appId: "1:799536032064:web:7bbd6be03855223bb2f2a5",
+             measurementId: "G-G85HXV3BKQ"
+        };
+        // ------------------------------
+
+        const appId = firebaseConfig.projectId; 
+        
+        let app, db, auth, userId;
+
+        // UI elements
+        const logContainer = document.getElementById('log-container');
+        const statusDiv = document.getElementById('status-message');
+
+        const updateStatus = (message, color = 'cyan') => {
+            statusDiv.innerHTML = `<div class="p-3 rounded-lg text-center text-${color}-400 bg-${color}-900/30">${message}</div>`;
+        };
+
+        const renderLog = (data, uid) => {
+            if (data && data.hasAccessed) {
+                logContainer.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span class="text-gray-400">User ID</span>
+                            <span class="font-mono text-sm text-cyan-400 break-all">${uid}</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span class="text-gray-400">Name</span>
+                            <span class="font-semibold text-white">${data.name || 'N/A'}</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span class="text-gray-400">Email</span>
+                            <span class="font-semibold text-white">${data.email || 'N/A'}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2">
+                            <span class="text-gray-400">Access Time</span>
+                            <span class="font-semibold text-white">${data.accessTime ? new Date(data.accessTime).toLocaleString() : 'N/A'}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                logContainer.innerHTML = `
+                    <div class="text-center p-8 text-gray-400">
+                        <i class="fas fa-box-open text-4xl mb-3"></i>
+                        <p>No access log found for this user.</p>
+                        <p class="text-sm mt-2">(You must submit the form in the main app first.)</p>
+                    </div>
+                `;
+            }
+            updateStatus(`Viewing log for User ID: ${uid}`, 'cyan');
+        };
+
+        const fetchUserLog = async (currentUserId) => {
+            const accessPath = `/artifacts/${appId}/users/${currentUserId}/bookAccess/${BOOK_TITLE_SLUG}`;
+            const accessDocRef = doc(db, accessPath);
+            
+            try {
+                const docSnap = await getDoc(accessDocRef);
+                renderLog(docSnap.data(), currentUserId);
+            } catch (e) {
+                console.error("Failed to fetch user log:", e);
+                updateStatus(`Error fetching log: ${e.message}`, 'red');
+            }
+        };
+
+        const handleSignIn = async () => {
+            try {
+                // Try to sign in anonymously. If a user already exists from the main app, it re-uses them.
+                const userCredential = await signInAnonymously(auth); 
+                return userCredential.user;
+            } catch (error) {
+                console.error("Anonymous Authentication Error:", error);
+                updateStatus(`Authentication Failed: ${error.message}. Check Firebase Auth settings.`, 'red');
+                return null;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Firebase
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            updateStatus('Authenticating user...', 'cyan');
+
+            // Wait for auth state to resolve
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                    updateStatus('Fetching user log...', 'cyan');
+                    await fetchUserLog(userId);
+                } else {
+                    // If no user, try to sign in
+                    const signedInUser = await handleSignIn();
+                    if (signedInUser) {
+                        userId = signedInUser.uid;
+                        updateStatus('Fetching user log...', 'cyan');
+                        await fetchUserLog(userId);
+                    } else {
+                        updateStatus('Cannot proceed without authentication.', 'red');
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-midnight text-gray-300 antialiased min-h-screen flex justify-center items-center py-12">
+    <div class="max-w-2xl mx-auto px-4 w-full">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-white mb-2">
+                <i class="fas fa-clipboard-list text-pink-400"></i> Access Log Viewer
+            </h1>
+            <p class="text-lg text-gray-400">Data saved by the current anonymous session.</p>
+        </header>
+
+        <!-- Status Message Area -->
+        <div id="status-message" class="mb-8"></div>
+
+        <!-- Log Content Area -->
+        <div class="p-8 bg-surface rounded-xl shadow-2xl border border-cyan-700/50">
+            <h2 class="text-xl font-bold text-white mb-6 border-b border-gray-600 pb-3">
+                <i class="fas fa-file-invoice mr-2 text-pink-400"></i> Saved Submission Data
+            </h2>
+            <div id="log-container" class="min-h-[150px] flex items-center justify-center">
+                <i class="fas fa-spinner fa-spin text-3xl text-cyan-400"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
