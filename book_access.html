@@ -33,7 +33,6 @@
         // Global variables MUST be used as provided by the Canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        // FIX: Corrected typo from __initialAuthToken to __initial_auth_token
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null; 
 
         let app, db, auth, userId;
@@ -159,8 +158,10 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
+            console.log("Loaded Firebase Config:", firebaseConfig); // Added log for debugging
+
             if (!firebaseConfig || !firebaseConfig.apiKey) {
-                updateStatus('<p>Error: Firebase configuration is missing or invalid. Cannot run application logic.</p>', 'red');
+                updateStatus('<p>Error: Firebase configuration is missing or invalid. Application requires environment variables to run.</p>', 'red');
                 return;
             }
             app = initializeApp(firebaseConfig);
