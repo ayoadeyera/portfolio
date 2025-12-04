@@ -21,20 +21,16 @@
 
     <!-- --- FIREBASE LOGIC --- -->
     <script type="module">
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBcSfjJDN_8RexWeaTvEh_QZ0UAzRsh3V0",
-  authDomain: "portfolio-a00c5.firebaseapp.com",
-  projectId: "portfolio-a00c5",
-  storageBucket: "portfolio-a00c5.firebasestorage.app",
-  messagingSenderId: "799536032064",
-  appId: "1:799536032064:web:7bbd6be03855223bb2f2a5",
-  measurementId: "G-G85HXV3BKQ"
-};
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Set Firebase Log Level (Optional: for debugging)
+        // setLogLevel('Debug'); // Uncomment this if you need deep debug logs
+
+        const BOOK_TITLE_SLUG = 'MagneticWriting';
         
-        // =========================================================================
-        // !!! IMPORTANT: YOUR FIREBASE CONFIGURATION IS INSERTED HERE !!!
-        // =========================================================================
+        // --- Firebase Configuration ---
         const firebaseConfig = {
              apiKey: "AIzaSyBcSfjJDN_8RexWeaTvEh_QZ0UAzRsh3V0", 
              authDomain: "portfolio-a00c5.firebaseapp.com",
@@ -44,7 +40,7 @@ const firebaseConfig = {
              appId: "1:799536032064:web:7bbd6be03855223bb2f2a5",
              measurementId: "G-G85HXV3BKQ"
         };
-        // =========================================================================
+        // ------------------------------
 
         // Use the projectId as the unique identifier for the firestore pathing
         const appId = firebaseConfig.projectId; 
@@ -151,7 +147,9 @@ const firebaseConfig = {
                 if (name && email) {
                     grantAccess(name, email);
                 } else {
-                    alert('Please provide your name and email address.');
+                    // Changed alert() to a custom message in the status div, 
+                    // as alert() is bad practice in an iframe environment.
+                    updateStatus('<p>Please provide your name and email address to continue.</p>', 'red');
                 }
             });
         }
@@ -191,14 +189,9 @@ const firebaseConfig = {
                     await checkAccessStatus(userId);
                 } else {
                     // If no user is logged in (first load), initiate sign-in
-                    await handleSignIn();
+                    handleSignIn();
                 }
             });
-
-            // Fallback for initial sign-in attempt if listener hasn't fired
-            if (!auth.currentUser) {
-                 handleSignIn();
-            }
         });
     </script>
 
