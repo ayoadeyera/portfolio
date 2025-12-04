@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solomon Adeyera | Graphics Portfolio</title>
+    
+    <!-- --- FONTS & ICONS --- -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- --- TAILWIND SETUP --- -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        midnight: '#030712', 
+                        surface: '#111827',
+                        primary: '#6366f1', 
+                        accent: '#a855f7',
+                        cyan: '#06b6d4',
+                        // Added custom colors for diversity in placeholders
+                        emerald: '#10b981',
+                        rose: '#f43f5e',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for the Gallery -->
+    <style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.5); /* Semi-transparent surface */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(17, 24, 39, 0.8);
+            border-color: #06b6d4; /* Cyan border on hover */
+            box-shadow: 0 10px 25px -10px rgba(6, 182, 212, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .gallery-image {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .gallery-image-container {
+            overflow: hidden;
+        }
+
+        .gallery-image-container:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Columns for Masonry-like Effect (Adjust column count for different screen sizes) */
+        .gallery-grid {
+            column-count: 1;
+            column-gap: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .gallery-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .gallery-grid {
+                column-count: 3;
+            }
+        }
+        
+        /* Ensures cards break correctly for the grid system */
+        .gallery-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 2rem;
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+    </style>
+</head>
+<body class="bg-midnight text-gray-300 antialiased overflow-x-hidden min-h-screen">
+
+    <!-- Header & Navigation (Reusing Portfolio style) -->
+    <header class="w-full bg-midnight/90 backdrop-blur-sm shadow-xl border-b border-gray-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+            <!-- Logo/Home Link -->
+            <div class="flex-shrink-0 font-bold text-2xl tracking-tighter text-white">
+                SOLOMON<span class="text-cyan">CREATIVE</span>
+            </div>
+            
+            <!-- Back to Portfolio Link -->
+            <a href="Portfolio.jsx" class="px-5 py-2 rounded-full bg-cyan-600 text-white font-medium hover:bg-cyan-700 transition-colors flex items-center text-sm">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Main
+            </a>
+        </div>
+    </header>
+
+    <!-- Gallery Content -->
+    <section class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-4">
+                Creative <span class="text-cyan">Works</span> Showcase
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                A selection of graphic design, branding, and motion graphics projects demonstrating versatility and aesthetic precision.
+            </p>
+        </div>
+
+        <!-- The Responsive Gallery Grid -->
+        <div class="gallery-grid">
+
+            <!-- Gallery Item 1: High-Impact Branding (Logo Design Example) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-square">
+                    <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/lizzy.png" 
+                         alt="High-Impact Branding Mockup" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest block mb-1">Brand Identity</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Lizzy Dish</h3>
+                    <p class="text-gray-400 text-sm">Full corporate identity and visual for a startup restaurant.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 2: UI/UX Mobile App (Design Sample) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[3/4]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/tapapp.jpeg" 
+                         alt="Mobile App UI/UX Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-cyan uppercase tracking-widest block mb-1">UI/UX Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">TAP Social App</h3>
+                    <p class="text-gray-400 text-sm">Designing a seamless social connection interface focusing on data clarity and user engagement, connection and dark mode.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 3: Digital Ad Campaign (Graphics Sample) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-video">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/social_ad.jpg" 
+                         alt="Digital Ad Campaign Creative" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-primary uppercase tracking-widest block mb-1">Digital Marketing</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">High-Converting Facebook Ads</h3>
+                    <p class="text-gray-400 text-sm">A series of high-contrast visuals designed to optimize click-through-rates for a limited-time product launch.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 4: Motion Graphics / Animated Logo -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[16/9]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="https://placehold.co/1000x562/374151/ffffff?text=MOTION+GRAPHICS+STILL" 
+                         alt="Motion Graphics Still" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-cyan uppercase tracking-widest block mb-1">Motion Graphics</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">3D Animated Intro</h3>
+                    <p class="text-gray-400 text-sm">Created a dynamic 3D-rendered intro sequence for a YouTube channel using vibrant particle effects.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 5: Book Cover Design (Graphics Sample) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[3/4]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/living_from_heaven.jpg" 
+                         alt="Book Cover Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-rose uppercase tracking-widest block mb-1">Typography & Layout</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">In Christ Book Cover</h3>
+                    <p class="text-gray-400 text-sm">Creating an eye-catching, commercially viable cover that reflects the book's high-value, persuasive content.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 6: Infographic Design (Graphics Sample) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[1/2]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/codi.jpeg" 
+                         alt="Infographic Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest block mb-1">Data Visualization</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Gospel Music Brand</h3>
+                    <p class="text-gray-400 text-sm">Clean, easy-to-digest Christian Album Art.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 7: Presentation Deck Style (Graphics Sample) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[4/3]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/tobmod.jpg" 
+                         alt="Presentation Slide Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-primary uppercase tracking-widest block mb-1">Slide Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Investor Pitch Deck Template</h3>
+                    <p class="text-gray-400 text-sm">Developing a modern, professional slide master for effective and concise investor presentations.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 8: Mascot/Character Logo -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-square">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="https://placehold.co/800x800/a855f7/ffffff?text=MASCOT+LOGO" 
+                         alt="Mascot Logo Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest block mb-1">Logo Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">E-Sports Team Mascot</h3>
+                    <p class="text-gray-400 text-sm">A highly detailed, striking mascot logo created for a competitive gaming organization.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 9: Packaging Design (New Entry) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[4/5]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/kulikuli.png" 
+                         alt="Product Packaging Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-emerald uppercase tracking-widest block mb-1">Packaging Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Local Pasteries Brand</h3>
+                    <p class="text-gray-400 text-sm">Eco-friendly packaging design focusing on clean typography and earthy color palettes for a specialty sustainable local snacks brand.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 10: Event Poster / Flyer (New Entry) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[2/3]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/okims.png" 
+                         alt="Event Poster Art" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-orange-400 uppercase tracking-widest block mb-1">Print Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Jazz Festival Poster Series</h3>
+                    <p class="text-gray-400 text-sm">Abstract and vibrant poster artwork designed for a regional music and arts festival.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 11: Editorial Layout / Magazine Spread (New Entry) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[5/3]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="images/almuq.png" 
+                         alt="Magazine Spread Layout" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-rose uppercase tracking-widest block mb-1">Editorial Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Travel Magazine Feature</h3>
+                    <p class="text-gray-400 text-sm">Sophisticated two-page spread layout utilizing grid systems and high-quality photography.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 12: Business Card / Stationery (New Entry) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[16/9]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="https://placehold.co/800x450/3b82f6/ffffff?text=STATIONERY+MOCKUP" 
+                         alt="Stationery Mockup" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">Stationery Design</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Minimalist Business Kit</h3>
+                    <p class="text-gray-400 text-sm">Designing a cohesive set of stationery (letterhead, envelope, card) with a minimalist aesthetic.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 13: Iconography Set / Digital Asset Library (New Entry) -->
+            <div class="gallery-item glass-card rounded-2xl">
+                <div class="gallery-image-container rounded-t-2xl aspect-[1/1]">
+                     <!-- ACTION REQUIRED: Replace the 'src' with your publicly hosted image URL -->
+                    <img src="https://placehold.co/800x800/0ea5e9/ffffff?text=ICONOGRAPHY+SET" 
+                         alt="Iconography Set Design" 
+                         class="gallery-image rounded-t-2xl">
+                </div>
+                <div class="p-6">
+                    <span class="text-xs font-bold text-sky-400 uppercase tracking-widest block mb-1">Vector Graphics</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">SaaS Product Icon Set</h3>
+                    <p class="text-gray-400 text-sm">A complete, scalable vector iconography library created for a Software-as-a-Service (SaaS) application.</p>
+                </div>
+            </div>
+
+        </div> <!-- End Gallery Grid -->
+        
+        <div class="text-center mt-16 pt-8 border-t border-gray-800">
+             <a href="mailto:solomonadeyera@yahoo.com" class="inline-flex items-center justify-center px-8 py-3.5 text-lg font-bold text-gray-900 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl 
+                hover:bg-cyan-300 transition-all hover:scale-[1.02] 
+                shadow-xl shadow-cyan-500/30 
+                ring-2 ring-cyan-500/50">
+                <i class="fas fa-handshake mr-3"></i> Hire Me for Your Next Project
+            </a>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface/50 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-500 text-sm">
+            &copy; 2024 Solomon Adeyera Creative Works.
+        </div>
+    </footer>
+
+</body>
+</html>
