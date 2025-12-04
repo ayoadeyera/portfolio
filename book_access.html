@@ -21,20 +21,34 @@
 
     <!-- --- FIREBASE LOGIC --- -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Set Firebase Log Level (Optional: for debugging)
-        // setLogLevel('Debug');
-
-        const BOOK_TITLE_SLUG = 'MagneticWriting';
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBcSfjJDN_8RexWeaTvEh_QZ0UAzRsh3V0",
+  authDomain: "portfolio-a00c5.firebaseapp.com",
+  projectId: "portfolio-a00c5",
+  storageBucket: "portfolio-a00c5.firebasestorage.app",
+  messagingSenderId: "799536032064",
+  appId: "1:799536032064:web:7bbd6be03855223bb2f2a5",
+  measurementId: "G-G85HXV3BKQ"
+};
         
-        // Global variables MUST be used as provided by the Canvas environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null; 
+        // =========================================================================
+        // !!! IMPORTANT: YOUR FIREBASE CONFIGURATION IS INSERTED HERE !!!
+        // =========================================================================
+        const firebaseConfig = {
+             apiKey: "AIzaSyBcSfjJDN_8RexWeaTvEh_QZ0UAzRsh3V0", 
+             authDomain: "portfolio-a00c5.firebaseapp.com",
+             projectId: "portfolio-a00c5",
+             storageBucket: "portfolio-a00c5.firebasestorage.app",
+             messagingSenderId: "799536032064",
+             appId: "1:799536032064:web:7bbd6be03855223bb2f2a5",
+             measurementId: "G-G85HXV3BKQ"
+        };
+        // =========================================================================
 
+        // Use the projectId as the unique identifier for the firestore pathing
+        const appId = firebaseConfig.projectId; 
+        
         let app, db, auth, userId;
         let isAuthReady = false;
 
@@ -50,6 +64,7 @@
 
         // Core Function: Check if the user has accessed the content before
         const checkAccessStatus = async (currentUserId) => {
+            // Firestore pathing structure MUST be /artifacts/{appId}/users/{userId}/...
             const accessPath = `/artifacts/${appId}/users/${currentUserId}/bookAccess/${BOOK_TITLE_SLUG}`;
             const accessDocRef = doc(db, accessPath);
             
@@ -67,7 +82,7 @@
                                 You have already viewed the exclusive content. Access is limited to a single view per account.
                             </p>
                             <p class="text-sm text-red-400 mt-4">
-                                Your User ID: <span class="font-mono text-red-200">${currentUserId}</span>
+                                Your User ID: <span class="font-mono text-red-200 break-all">${currentUserId}</span>
                             </p>
                         </div>
                     `, 'red');
@@ -94,8 +109,8 @@
         // Function: Handle form submission and grant access
         const grantAccess = async (name, email) => {
             if (!userId) {
-                console.error("User ID not available.");
-                updateStatus('<p>Authentication not ready. Please try refreshing.</p>', 'red');
+                console.error("User ID not available. Authentication failed.");
+                updateStatus('<p>Authentication failed. Please try refreshing.</p>', 'red');
                 return;
             }
 
@@ -136,34 +151,33 @@
                 if (name && email) {
                     grantAccess(name, email);
                 } else {
-                    // NOTE: Custom modal UI should be used here instead of alert in a production app.
                     alert('Please provide your name and email address.');
                 }
             });
         }
 
 
-        // Authentication setup
+        // Authentication setup using Anonymous Sign-in 
         const handleSignIn = async () => {
             try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth); 
-                }
+                const userCredential = await signInAnonymously(auth); 
+                console.log("Signed in anonymously:", userCredential.user.uid);
             } catch (error) {
-                console.error("Authentication Error:", error);
-                updateStatus(`<p>Authentication Error. Please try again.</p>`, 'red');
+                console.error("Anonymous Authentication Error:", error);
+                // Prompt user to check settings
+                updateStatus(`<p>Authentication Error: Configuration Issue (auth/configuration-not-found). Please ensure Anonymous Sign-in is enabled in your Firebase Console for project ID ${firebaseConfig.projectId}.</p>`, 'red');
             }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Loaded Firebase Config:", firebaseConfig); // Added log for debugging
-
-            if (!firebaseConfig || !firebaseConfig.apiKey) {
-                updateStatus('<p>Error: Firebase configuration is missing or invalid. Application requires environment variables to run.</p>', 'red');
+            
+            // Initialization checks
+            if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId) {
+                updateStatus('<p>Error: Firebase configuration is missing or invalid. Check your pasted configuration details.</p>', 'red');
                 return;
             }
+
+            // Initialize Firebase
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
@@ -176,11 +190,12 @@
                     updateStatus('<i class="fas fa-search mr-3 fa-spin"></i> Checking access status...', 'cyan');
                     await checkAccessStatus(userId);
                 } else {
+                    // If no user is logged in (first load), initiate sign-in
                     await handleSignIn();
                 }
             });
 
-            // If the listener hasn't fired yet, try to sign in
+            // Fallback for initial sign-in attempt if listener hasn't fired
             if (!auth.currentUser) {
                  handleSignIn();
             }
@@ -246,10 +261,10 @@
                     <h3 class="text-2xl font-bold text-white pt-4">2. The Influence Imperative</h3>
                     <p>The core of magnetic writing is recognizing that people do not buy products; they buy *a better version of themselves*. This pillar shows you how to strategically connect your product or service directly to the reader's desired future transformation, using psychological triggers to motivate immediate, decisive action and high-value conversions. This is about selling the aspirational outcome, not the feature set.</p>
 
-                    <h3 class="text-2xl font-bold text-white pt-4">3. Stimulating Human Potential</h3>
+                    <h3 class="2xl font-bold text-white pt-4">3. Stimulating Human Potential</h3>
                     <p>Learn the advanced techniques for tapping into the reader's deepest, most ambitious dormant desires and motivations. Magnetic writing acts as a powerful catalyst, moving readers past procrastination and fear, and inspiring them toward life-changing decisions that align with your offer. This is the art of selling aspiration and moving the reader from passive contemplation to active pursuit of a better life.</p>
 
-                    <h3 class="text-2xl font-bold text-white pt-4">4. Defying Talent: The Rear Method</h3>
+                    <h3 class="2xl font-bold text-white pt-4">4. Defying Talent: The Rear Method</h3>
                     <p>Solomon Adeyera's revolutionary system proves that innate talent is vastly overrated in the world of conversion copy. This pillar introduces the specific, repeatable "Rear Method"—a foolproof blueprint that guarantees high-quality, magnetic copy for *anyone*, regardless of their perceived starting "writing gift" or experience level. It's a system you can execute, not a talent you must be born with.</p>
                 </div>
                 
